@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.tao.dao.InventoryDao">
+	
+	<update id="reduceNumber">
+		update
+			inventory
+		set
+			number = number - 1
+		where 
+			inventory_id = #{inventoryId}
+			and start_time <![CDATA[ <= ]]> #{killTime}
+			and end_time >= #{killTime}
+			and number > 0;
+	</update>
+	
+	<select id="queryById" parameterType="long" resultType="Inventory">
+		select * from inventory where inventory_id = #{inventoryId};
+	</select>
+	
+	<select id="queryAll" resultType="Inventory">
+		select * from inventory order by create_time desc limit #{offset},#{limit};
+	</select>
+</mapper>
